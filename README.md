@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Anime Search Application
+
+A modern, responsive anime search application built with Next.js 15, TypeScript, and Redux Toolkit. Search for anime using the Jikan API (MyAnimeList) with advanced filtering, pagination, and detailed anime information.
+
+## Features
+
+- 🔍 Search anime by title
+- 🎯 Filter by type (TV, Movie, OVA, etc.)
+- ⭐ Filter by rating (G, PG, PG-13, R, etc.)
+- 📊 Sort by title, score, or popularity
+- 📱 View detailed anime information
+- 🎨 Modern UI with Tailwind CSS
+- 🔄 State management with Redux Toolkit
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18.x or higher
+- npm, yarn, pnpm, or bun
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:4000](http://localhost:4000) in your browser
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **State Management**: Redux Toolkit
+- **Styling**: Tailwind CSS
+- **UI Components**: Custom components with shadcn/ui patterns
+- **API**: Jikan API v4 (MyAnimeList)
 
-## Learn More
+## Bonus Implementation
 
-To learn more about Next.js, take a look at the following resources:
+This project includes several enhanced features beyond the core requirements:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 1. Empty State and No Results Handling
+- Custom empty state component with helpful messaging when no results are found
+- Graceful handling of empty search queries with user-friendly prompts
+- Visual feedback with custom SVG illustrations
+- Clear guidance for users when filters return no matches
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 2. Mobile Responsiveness
+- Fully responsive design that works seamlessly across all device sizes
+- Optimized layouts for mobile, tablet, and desktop views
+- Touch-friendly UI elements and interactions
+- Responsive grid system that adapts to screen size
+- Mobile-optimized navigation and filter controls
 
-## Deploy on Vercel
+### 3. Additional Features
+- **Advanced Filtering**: Multiple filter options including type and rating
+- **Sorting Options**: Sort results by title, score, or popularity
+- **Anime Details Page**: Dedicated page with comprehensive anime information
+- **Loading States**: Skeleton loaders for better UX during data fetching
+- **Pagination**: Client-side pagination for browsing search results
+- **Redux State Management**: Centralized state management for complex data flows
+- **Type Safety**: Full TypeScript implementation for reliability
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 4. Proper Error Handling
+- **Network Failure Handling**: Graceful degradation when API is unreachable
+- **Rate Limiting**: Proper handling of 429 status codes with user feedback
+- **Invalid API Responses**: Validation and error recovery for malformed data
+- **Loading States**: Visual indicators during async operations
+- **Error Boundaries**: Comprehensive error catching and user-friendly messages
+- **Retry Logic**: Automatic retry mechanisms for failed requests
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Project Structure
+
+```
+animesearch/
+├── app/                    # Next.js App Router
+│   ├── api/               # API routes (backend)
+│   ├── details/           # Anime details pages
+│   └── page.tsx           # Home page
+├── components/
+│   ├── dto/               # Data Transfer Objects
+│   ├── pages/             # Page-level components
+│   └── ui/                # Reusable UI components
+└── lib/
+    ├── features/          # Redux slices
+    └── store.ts           # Redux store configuration
+```
+
+## License
+
+MIT
