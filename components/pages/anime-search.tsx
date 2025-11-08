@@ -4,13 +4,16 @@ import type React from 'react'
 import { useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
 import { Card, CardContent } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Search, Settings2 } from 'lucide-react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Empty, EmptyDescription, EmptyMedia, EmptyTitle } from '../ui/empty'
 import { Skeleton } from '../ui/skeleton'
+import { TiltCard } from '../ui/tilt-card'
+import { ScoreBadge } from '../ui/score-badge'
+import { AnimatedSearch } from '../ui/animated-search'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import {
   searchAnime,
@@ -113,8 +116,8 @@ export function AnimeSearchPageView() {
     [dispatch, filters],
   )
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSearchSubmit = (e?: React.FormEvent) => {
+    e?.preventDefault()
     handleSearch(searchQuery, 1)
   }
 
@@ -139,33 +142,36 @@ export function AnimeSearchPageView() {
   )
 
   return (
-    <div className="min-h-screen">
-      <section className="border-b backdrop-blur-md sticky top-0 z-50 bg-background/95">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-4 sm:py-6">
-          <h1 className="text-xl sm:text-2xl font-bold mb-4">
+    <div className='min-h-screen'>
+      <section className='glass border-b sticky top-0 z-50'>
+        <div className='mx-auto max-w-7xl px-4 sm:px-6 py-4 sm:py-6'>
+          <motion.h1 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className='text-xl sm:text-2xl font-bold mb-4 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent'
+          >
             Anime Search
-          </h1>
+          </motion.h1>
           
           {/* Desktop: Search + Filters in one row */}
-          <div className="hidden lg:flex lg:flex-row gap-3 items-end mb-0">
-            <div className="flex-1 min-w-0 flex gap-2">
-              <form onSubmit={handleSearchSubmit} className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Search anime..."
-                  value={searchQuery}
-                  onChange={(e) => dispatch(setSearchQuery(e.target.value))}
-                  className="pl-10 h-10"
-                />
-              </form>
-              <Button 
-                type="submit" 
-                onClick={handleSearchSubmit}
-                className="h-10 px-6 shrink-0"
-              >
-                Search
-              </Button>
+          <div className='hidden lg:flex lg:flex-row gap-3 items-end mb-0'>
+            <div className='flex-1 min-w-0 flex gap-2'>
+              <AnimatedSearch
+                value={searchQuery}
+                onChange={(value) => dispatch(setSearchQuery(value))}
+                onSubmit={handleSearchSubmit}
+                placeholder='Search anime...'
+                className='flex-1'
+              />
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button 
+                  type='submit' 
+                  onClick={handleSearchSubmit}
+                  className='h-10 px-6 shrink-0'
+                >
+                  Search
+                </Button>
+              </motion.div>
             </div>
 
             <div className="w-auto shrink-0">
@@ -275,25 +281,24 @@ export function AnimeSearchPageView() {
           </div>
 
           {/* Mobile: Search + Filter Toggle */}
-          <div className="lg:hidden space-y-3">
-            <div className="w-full flex gap-2">
-              <form onSubmit={handleSearchSubmit} className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Search anime..."
-                  value={searchQuery}
-                  onChange={(e) => dispatch(setSearchQuery(e.target.value))}
-                  className="pl-10 h-10 text-sm"
-                />
-              </form>
-              <Button 
-                type="submit" 
-                onClick={handleSearchSubmit}
-                className="h-10 px-4 shrink-0"
-              >
-                <Search className="h-4 w-4" />
-              </Button>
+          <div className='lg:hidden space-y-3'>
+            <div className='w-full flex gap-2'>
+              <AnimatedSearch
+                value={searchQuery}
+                onChange={(value) => dispatch(setSearchQuery(value))}
+                onSubmit={handleSearchSubmit}
+                placeholder='Search anime...'
+                className='flex-1'
+              />
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button 
+                  type='submit' 
+                  onClick={handleSearchSubmit}
+                  className='h-10 px-4 shrink-0'
+                >
+                  <Search className='h-4 w-4' />
+                </Button>
+              </motion.div>
             </div>
 
             <div className="flex gap-2">
@@ -586,33 +591,50 @@ export function AnimeSearchPageView() {
 
         {!isLoading && animeList.length > 0 && (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-12">
-              {animeList.map((anime) => (
-                <Link key={anime.id} href={`/details/${anime.id}`}>
-                  <Card className="group h-full overflow-hidden transition-all hover:shadow-2xl hover:scale-105 cursor-pointer">
-                    <div className="relative overflow-hidden aspect-video">
-                      <Image
-                        src={anime.image || '/placeholder.svg'}
-                        alt={anime.title}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-300"
-                      />
-                    </div>
-                    <CardContent className="pt-4">
-                      <h3 className="font-semibold line-clamp-2 transition-colors">
-                        {anime.title}
-                      </h3>
-                      <div className="mt-2 flex gap-2 text-xs text-muted-foreground">
-                        <span>{anime.year}</span>
-                        <span>•</span>
-                        <span>★ {anime.score.toFixed(1)}</span>
-                      </div>
-                      <p className="mt-3 text-xs text-muted-foreground line-clamp-2">{anime.synopsis}</p>
-                    </CardContent>
-                  </Card>
-                </Link>
+            <motion.div 
+              className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-12'
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ staggerChildren: 0.1 }}
+            >
+              {animeList.map((anime, index) => (
+                <motion.div
+                  key={anime.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  <Link href={`/details/${anime.id}`}>
+                    <TiltCard className='h-full'>
+                      <Card className='group h-full overflow-hidden transition-all cursor-pointer border-2 hover:border-primary/50'>
+                        <div className='relative overflow-hidden aspect-video'>
+                          <Image
+                            src={anime.image || '/placeholder.svg'}
+                            alt={anime.title}
+                            fill
+                            className='object-cover transition-transform duration-500 group-hover:scale-110'
+                          />
+                          <div className='absolute top-2 right-2 z-10'>
+                            <ScoreBadge score={anime.score} size='sm' />
+                          </div>
+                          {/* Gradient overlay */}
+                          <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
+                        </div>
+                        <CardContent className='pt-4 relative z-10'>
+                          <h3 className='font-semibold line-clamp-2 transition-colors group-hover:text-primary'>
+                            {anime.title}
+                          </h3>
+                          <div className='mt-2 flex gap-2 text-xs text-muted-foreground'>
+                            <span className='font-medium'>{anime.year}</span>
+                          </div>
+                          <p className='mt-3 text-xs text-muted-foreground line-clamp-2'>{anime.synopsis}</p>
+                        </CardContent>
+                      </Card>
+                    </TiltCard>
+                  </Link>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
 
             <SmartPagination
               currentPage={currentPage}
