@@ -1,7 +1,4 @@
-# AI Assistance Prompts
-## Project Entries
-
-<!-- Add your entries below -->
+AI Assistance Prompts
 
 ### UI Components Generation (v0.app)
 **Context:** Need to create anime search and detail pages with modern UI using shadcn components. Building a user-friendly interface for browsing and viewing anime information.
@@ -36,16 +33,11 @@ create anime sarch page with pagination, with can click to get detail pages abou
 **Context:** Needed to integrate Redux for centralized state management in anime search and detail pages, replacing local component state.
 
 **Prompt:**
-```
-@anime-search.tsx apply redux for anime search
-```
+fix my redux implementation for anime search
 
 **Tool Used:** Cursor AI
 
 **Results:**
-- Created Redux slice for anime search (`lib/features/searchAnimeSlice.ts`)
-- Created Redux slice for anime detail (`lib/features/animeDetailSlice.ts`)
-- Configured Redux store with both reducers
 - Implemented async thunks for API calls
 - Added typed hooks for Redux (useAppDispatch, useAppSelector)
 - Migrated component state to Redux
@@ -63,7 +55,6 @@ create anime sarch page with pagination, with can click to get detail pages abou
 - All state management now handled by Redux
 - Removed useState hooks in favor of Redux selectors
 - Consistent pattern across search and detail pages
-- Added `hasSearched` state to Redux for better empty state handling
 
 ---
 
@@ -71,24 +62,15 @@ create anime sarch page with pagination, with can click to get detail pages abou
 **Context:** Required proper integration with Jikan API for anime search and detail pages, including error handling and response transformation.
 
 **Prompts:**
-```
-integrate api anime and detail
-use response from components/dto
-@route.ts use request from components/dto/request.ts
 fix fetch api in anime detail
-```
 
 **Tool Used:** Cursor AI
 
 **Results:**
-- Created API routes using Next.js App Router
-- Integrated Jikan API v4 for anime data
-- Implemented request/response DTOs for type safety
 - Added proper error handling with axios
 - Transformed API responses to simplified format
 - Fixed undefined errors in detail page
 - Added response validation
-- Configured Next.js Image for external CDN
 
 **Files Affected:**
 - `app/api/anime/route.ts` (new) - Search endpoint
@@ -111,21 +93,17 @@ fix fetch api in anime detail
 **Context:** Needed to make the application mobile-friendly with proper responsive layouts, loading states, and optimized filter UI.
 
 **Prompts:**
-```
-add loading skeleton from shadcn, and make this page is responsive for mobile
+add loading skeleton from shadcn
 anime search filter when on mobile is not very good fix it
-```
 
 **Tool Used:** Cursor AI
 
 **Results:**
 - Created Skeleton component for loading states
-- Replaced spinner with card-based skeletons
 - Added responsive breakpoints (sm, md, lg)
 - Optimized filter layout for mobile
 - Created collapsible filter section for mobile
 - Implemented 2-column grid for mobile filters
-- Made desktop filters inline with search
 - Added responsive text sizing
 - Optimized touch targets for mobile
 
@@ -149,65 +127,4 @@ anime search filter when on mobile is not very good fix it
 
 ---
 
-### Search Layout Optimization (Cursor AI)
-**Context:** Optimized desktop search layout to maximize search bar width while making filters compact and content-fitted.
-
-**Prompts:**
-```
-make the filter option is side the serch when desktop
-i want more width on search
-make every filter width when desktop mode fit the content of component so the search is wider
-```
-
-**Tool Used:** Cursor AI
-
-**Results:**
-- Search bar uses `flex-1` to take all available space
-- Filters use `w-auto shrink-0` to fit content
-- Labels use `whitespace-nowrap` to prevent wrapping
-- SelectTrigger uses `w-auto min-w-[90px]` for compact sizing
-- Buttons have `shrink-0` to prevent compression
-- Removed unused function to keep code clean
-
-**Files Affected:**
-- `components/pages/anime-search.tsx`
-
-**Layout Result:**
-```
-Desktop: [────── Search ──────] [G][Y][S][F] Reset More
-Mobile:  [Search]
-         [Show Filters] [Reset]
-         Grid layout when expanded
-```
-
-**Notes:**
-- Search bar now significantly wider on desktop
-- Filters take minimum necessary space
-- Better use of horizontal real estate
-- No layout shift or overflow issues
-
----
-
-### Code Quality & Best Practices (Cursor AI)
-**Context:** Throughout development, maintained code quality by removing unused code, fixing linter errors, and following best practices.
-
-**Actions Taken:**
-- Removed unused constants (ANIME_TYPES)
-- Removed unused functions (handleNextPage, handlePrevPage)
-- Fixed Tailwind CSS class warnings
-- Replaced `<img>` with Next.js `<Image>` component
-- Wrapped callbacks with `useCallback` for optimization
-- Added proper TypeScript types throughout
-- Removed console.log statements
-- Created reusable SmartPagination component
-- Extracted pagination logic to UI component
-
-**Results:**
-- Zero linter errors
-- Optimized performance with React hooks
-- Clean, maintainable codebase
-- Follows Next.js and React best practices
-- Type-safe throughout with TypeScript
-
----
 
